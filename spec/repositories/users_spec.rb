@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Repositories::Users do
   describe 'CRUD routes' do
     let(:user) { create(:user, username: "user1", password: "password123") }
-    let(:attributes) {{username: 'username2', password: 'password123'}}
-    let(:repository) {Repositories::Users.new}
+    let(:attributes) { { username: 'username2', password: 'password123' } }
+    let(:repository) { Repositories::Users.new }
     let(:model) { User }
 
     context 'with valid parameters' do
@@ -33,7 +33,9 @@ RSpec.describe Repositories::Users do
     end
 
     context 'with invalid parameters' do
+      it 'Raises error when id is not found' do
+        expect(repository.show(999)).to eq({ error: "#{model.to_s} not found" })
+      end
     end
-
   end
 end

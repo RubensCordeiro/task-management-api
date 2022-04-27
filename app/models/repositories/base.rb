@@ -5,7 +5,11 @@ module Repositories
     end
 
     def show(id)
-      entity.find(id)
+      begin
+        entity.find(id)
+      rescue ActiveRecord::RecordNotFound
+        return { error: "#{entity.to_s} not found" }
+      end
     end
 
     def create(attributes)
@@ -13,11 +17,23 @@ module Repositories
     end
 
     def update(id, attributes)
-      entity.find(id).update(attributes)
+      begin
+        entity.find(id)
+      rescue ActiveRecord::RecordNotFound
+        return { error: "#{entity.to_s} not found" }
+      else
+        entity.find(id).update(attributes)
+      end
     end
 
     def destroy(id)
-      entity.destroy(id)
+      begin
+        entity.find(id)
+      rescue ActiveRecord::RecordNotFound
+        return { error: "#{entity.to_s} not found" }
+      else
+        entity.destroy(id)
+      end
     end
 
     private
