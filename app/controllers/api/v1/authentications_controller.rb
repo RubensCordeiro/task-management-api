@@ -8,23 +8,30 @@ module Api
       rescue_from AuthenticationError, with: :authentication_error_handler
 
       def authenticate
-        user = User.find_by(username: user_params[:username])
         raise UserNotFound unless user
-        raise AuthenticationError unless user.authenticate(user_params[:password])
+        raise AuthenticationError unless password_valid?
+
         token = AuthenticationTokenService.encode(data: { user_id: user.id })
         render json: token, status: :created
       end
 
       private
 
+      def user
+        @user ||= User.find_by(username: user_params[:username])
+      end
+
+      def password_valid?
+        user.authenticate(user_params[:password])
+      end
+
       def user_not_found_handler
-        render status: :not_found, json: {error: "User not found"}
+        render status: :not_found, json: { error: "User not found" }
       end
 
       def authentication_error_handler(e)
-        render status: :unauthorized, json: {error: "Wrong username or password"}
+        render status: :unauthorized, json: { error: "Wrong username or password" }
       end
-
     end
   end
 end

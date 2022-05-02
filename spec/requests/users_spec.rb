@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Users", type: :request do
   describe 'CRUD routes' do
     let(:user) { create(:user, username: "username1", password: "password123") }
+    let(:token) { AuthenticationTokenService.encode({ user_id: user.id }) }
 
     context 'With valid params' do
       it 'Creates user' do
@@ -11,12 +12,16 @@ RSpec.describe "Users", type: :request do
       end
 
       it 'Updates a user' do
-        patch "/api/v1/registration", params: { id: user.id, username: user.username, password: user.password }
+        patch "/api/v1/registration",
+              headers: { 'Authorization' => "Bearer #{token}" },
+              params: { id: user.id, username: user.username, password: user.password }
         expect(response).to have_http_status(:success)
       end
 
       it 'Destroys a user' do
-        delete "/api/v1/registration", params: { id: user.id }
+        delete "/api/v1/registration",
+               headers: { 'Authorization' => "Bearer #{token}" },
+               params: { id: user.id }
         expect(response).to have_http_status(:success)
       end
     end

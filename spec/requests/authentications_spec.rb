@@ -30,6 +30,5 @@ RSpec.describe 'Authentication', type: :request do
       post "#{base_route}", params: { username: user.username, password: 'wrong_password' }
       expect(response).to have_http_status(:unauthorized)
     end
-
   end
 end

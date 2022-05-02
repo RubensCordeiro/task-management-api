@@ -1,6 +1,8 @@
 module Api
   module V1
     class UsersController < Base
+      before_action :authenticate_user, only: [:update, :destroy]
+
       def create
         response = repository.create(user_params)
         render json: response, status: :created
