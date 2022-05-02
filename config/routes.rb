@@ -8,6 +8,10 @@ Rails.application.routes.draw do
         patch '/', to: "users#update"
         delete '/', to: "users#destroy"
       end
+
+      scope :authentication do
+        post '/', to: "authentications#authenticate"
+      end
     end
   end
 end
