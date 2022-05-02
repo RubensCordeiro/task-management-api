@@ -33,8 +33,6 @@ RSpec.describe "Users", type: :request do
         expect(response).to have_http_status(:bad_request)
         expect(JSON.parse(response.body)).to eq("error" => "param is missing or the value is empty: password")
       end
-
     end
-
   end
 end
