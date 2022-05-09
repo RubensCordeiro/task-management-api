@@ -31,8 +31,6 @@ RSpec.describe Task, type: :model do
         expect(task.save).to be(false)
         expect(task.errors.full_messages).to eq(["Priority Priority must be low, medium or high"])
       end
-
     end
-
   end
 end

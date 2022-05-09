@@ -9,11 +9,13 @@ module Api
       end
 
       def update
+        check_ownership(user_id)
         response = repository.update(user_id, user_params)
         render json: response
       end
 
       def destroy
+        check_ownership(user_id)
         response = repository.destroy(user_id)
         render json: response
       end

@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Users", type: :request do
   describe 'CRUD routes' do
     let(:user) { create(:user, username: "username1", password: "password123") }
+    let(:user_2) { create(:user, username: "username2", password: "password123") }
     let(:token) { AuthenticationTokenService.encode({ user_id: user.id }) }
 
     context 'With valid params' do
@@ -39,5 +40,13 @@ RSpec.describe "Users", type: :request do
         expect(JSON.parse(response.body)).to eq("error" => "param is missing or the value is empty: password")
       end
     end
+
+    it 'Prevents one user to access another user data' do
+      patch "/api/v1/registration",
+              headers: { 'Authorization' => "Bearer #{token}" },
+              params: { id: user_2.id, username: user.username, password: user.password }
+        expect(response).to have_http_status(:forbidden)
+    end
+
   end
 end

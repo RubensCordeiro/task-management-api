@@ -1,9 +1,11 @@
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token
   class MissingToken < StandardError; end
+  class Unauthorized < StandardError; end
 
   rescue_from ActionController::ParameterMissing, with: :parameter_missing_handler
   rescue_from MissingToken, with: :missing_token_handler
+  rescue_from Unauthorized, with: :unauthorized_handler
 
   private
 
@@ -13,7 +15,11 @@ class ApplicationController < ActionController::API
 
     decoded_token = AuthenticationTokenService.decode(token)
     user_data = decoded_token[0].deep_symbolize_keys
-    @user = user_data
+    @user = User.find(user_data[:user_id])
+  end
+
+  def check_ownership(user_id)
+    raise Unauthorized unless (current_user.id).to_i == user_id.to_i
   end
 
   def current_user
@@ -26,5 +32,9 @@ class ApplicationController < ActionController::API
 
   def missing_token_handler
     render status: 400, json: { error: "Missing authorization header" }
+  end
+
+  def unauthorized_handler(e)
+    render status: :forbidden, json: { error: "This resource does not belong to you" }
   end
 end
