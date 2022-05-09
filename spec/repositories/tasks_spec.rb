@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe Repositories::Tasks do
   describe 'CRUD routes' do
     let(:user) { create(:user, username: "user1", password: "password123") }
-    let(:attributes) { {user_id: user.id, title: "A brand new title", due_date: Time.new} }
+    let(:attributes) { { user_id: user.id, title: "A brand new title", due_date: Time.new } }
     let(:repository) { Repositories::Tasks.new }
     let(:task) { create(:task, user_id: user.id) }
-    let(:model) {Task}
+    let(:model) { Task }
 
     context 'With valid params' do
       it 'Should return all user tasks' do
@@ -37,6 +37,5 @@ RSpec.describe Repositories::Tasks do
         expect(repository.show(999)).to eq({ error: "#{model.to_s} not found" })
       end
     end
-
   end
 end

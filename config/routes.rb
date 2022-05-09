@@ -12,6 +12,11 @@ Rails.application.routes.draw do
       scope :authentication do
         post '/', to: "authentications#authenticate"
       end
+
+      scope :tasks do
+        get '/', to: "tasks#index"
+        get '/:id', to: "tasks#show"
+      end
     end
   end
 end

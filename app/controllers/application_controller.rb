@@ -6,6 +6,7 @@ class ApplicationController < ActionController::API
   rescue_from ActionController::ParameterMissing, with: :parameter_missing_handler
   rescue_from MissingToken, with: :missing_token_handler
   rescue_from Unauthorized, with: :unauthorized_handler
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found_handler
 
   private
 
@@ -18,12 +19,8 @@ class ApplicationController < ActionController::API
     @user = User.find(user_data[:user_id])
   end
 
-  def check_ownership(user_id)
-    raise Unauthorized unless (current_user.id).to_i == user_id.to_i
-  end
-
   def current_user
-    @user ||= authenticate_user[:user_id]
+    @user ||= authenticate_user
   end
 
   def parameter_missing_handler(e)
@@ -36,5 +33,9 @@ class ApplicationController < ActionController::API
 
   def unauthorized_handler(e)
     render status: :forbidden, json: { error: "This resource does not belong to you" }
+  end
+
+  def record_not_found_handler(e)
+    render status: :not_found, json: { error: e.to_s }
   end
 end

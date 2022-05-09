@@ -3,7 +3,7 @@ module Api
     class UsersController < ApplicationController
       before_action only: [:update, :destroy] do
         authenticate_user
-        check_ownership(user_id)
+        check_record_ownership(user_id)
       end
 
       def create
@@ -36,6 +36,10 @@ module Api
 
       def user_id
         params.require(:id)
+      end
+
+      def check_record_ownership(user_id)
+        raise Unauthorized unless (current_user.id).to_i == user_id.to_i
       end
     end
   end
