@@ -43,10 +43,9 @@ RSpec.describe "Users", type: :request do
 
     it 'Prevents one user to access another user data' do
       patch "/api/v1/registration",
-              headers: { 'Authorization' => "Bearer #{token}" },
-              params: { id: user_2.id, username: user.username, password: user.password }
-        expect(response).to have_http_status(:forbidden)
+            headers: { 'Authorization' => "Bearer #{token}" },
+            params: { id: user_2.id, username: user.username, password: user.password }
+      expect(response).to have_http_status(:forbidden)
     end
-
   end
 end

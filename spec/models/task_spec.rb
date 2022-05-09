@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Task, type: :model do
   describe 'Validations' do
-    let(:task) { create(:task) }
-    let(:task_2) { create(:task, title: "A title", due_date: Time.new) }
+    let(:user) { create(:user, username: "user1", password: "password123") }
+    let(:task) { create(:task, user_id: user.id) }
+    let(:task_2) { create(:task, title: "A title", due_date: Time.new, user_id: user.id) }
 
     context 'With valid params' do
       it 'Should create task with all params present' do

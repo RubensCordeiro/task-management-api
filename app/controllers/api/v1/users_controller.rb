@@ -1,7 +1,10 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :authenticate_user, only: [:update, :destroy]
+      before_action only: [:update, :destroy] do
+        authenticate_user
+        check_ownership(user_id)
+      end
 
       def create
         response = repository.create(user_params)
@@ -9,13 +12,11 @@ module Api
       end
 
       def update
-        check_ownership(user_id)
         response = repository.update(user_id, user_params)
         render json: response
       end
 
       def destroy
-        check_ownership(user_id)
         response = repository.destroy(user_id)
         render json: response
       end
