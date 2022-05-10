@@ -16,6 +16,9 @@ Rails.application.routes.draw do
       scope :tasks do
         get '/', to: "tasks#index"
         get '/:id', to: "tasks#show"
+        post '/', to: "tasks#create"
+        patch '/:id', to: "tasks#update"
+        delete '/:id', to: "tasks#destroy"
       end
     end
   end

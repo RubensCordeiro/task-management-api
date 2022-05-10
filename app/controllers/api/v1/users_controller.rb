@@ -39,7 +39,7 @@ module Api
       end
 
       def check_record_ownership(user_id)
-        raise Unauthorized unless (current_user.id).to_i == user_id.to_i
+        raise Forbidden unless (current_user.id).to_i == user_id.to_i
       end
     end
   end

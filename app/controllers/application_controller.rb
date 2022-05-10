@@ -1,11 +1,11 @@
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token
   class MissingToken < StandardError; end
-  class Unauthorized < StandardError; end
+  class Forbidden < StandardError; end
 
   rescue_from ActionController::ParameterMissing, with: :parameter_missing_handler
   rescue_from MissingToken, with: :missing_token_handler
-  rescue_from Unauthorized, with: :unauthorized_handler
+  rescue_from Forbidden, with: :forbidden_handler
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found_handler
 
   private
@@ -31,7 +31,7 @@ class ApplicationController < ActionController::API
     render status: 400, json: { error: "Missing authorization header" }
   end
 
-  def unauthorized_handler(e)
+  def forbidden_handler(e)
     render status: :forbidden, json: { error: "This resource does not belong to you" }
   end
 
