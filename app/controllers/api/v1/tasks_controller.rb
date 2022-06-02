@@ -5,7 +5,7 @@ module Api
       before_action :check_task_ownership, only: [:show, :update, :destroy]
 
       def index
-        response = repository.index(current_user&.id) # To prevent nil method error
+        response = repository.index(current_user&.id, filter_param=nil) # To prevent nil method error
         render json: response
       end
 
@@ -56,6 +56,16 @@ module Api
       def check_task_ownership
         raise Forbidden unless Task.find(task_id).user_id == current_user&.id
       end
+
+      def filter_param
+        return 'urgent' if params[:filter] == 'urgent'
+        return 'late' if params[:filter] == 'late'
+        return 'today' if params[:filter] == 'today'
+        return 'today' if params[:filter] == 'tomorrow'
+        return 'today' if params[:filter] == 'next_week'
+        return nil
+      end
+
     end
   end
 end

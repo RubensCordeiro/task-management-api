@@ -19,7 +19,7 @@ RSpec.describe 'Tasks', type: :request do
 
       it 'Should get desired task, provided user owns it' do
         task
-        get "/api/v1/tasks/#{task.id}",
+        get "/api/v1/tasks/task/#{task.id}",
             headers: { 'Authorization' => "Bearer #{token}" }
         expect(response).to have_http_status(:success)
       end
@@ -56,7 +56,7 @@ RSpec.describe 'Tasks', type: :request do
 
       it 'Should not get desired task when user doesnt own it' do
         task
-        get "/api/v1/tasks/#{task_2.id}",
+        get "/api/v1/tasks/task/#{task_2.id}",
             headers: { 'Authorization' => "Bearer #{token}" }
         expect(response).to have_http_status(:forbidden)
       end
@@ -66,6 +66,42 @@ RSpec.describe 'Tasks', type: :request do
                headers: { 'Authorization' => "Bearer #{token}" }
         expect(response).to have_http_status(:success)
       end
+      
+      it 'Should return all user urgent tasks' do
+        task
+        get "/api/v1/tasks/urgent",
+            headers: { 'Authorization' => "Bearer #{token}" }
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'Should return only late tasks' do
+        task
+        get "/api/v1/tasks/late",
+            headers: { 'Authorization' => "Bearer #{token}" }
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'Should return only today tasks' do
+        task
+        get "/api/v1/tasks/today",
+            headers: { 'Authorization' => "Bearer #{token}" }
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'Should return only tomorrow tasks' do
+        task
+        get "/api/v1/tasks/tomorrow",
+            headers: { 'Authorization' => "Bearer #{token}" }
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'Should return only next_week tasks' do
+        task
+        get "/api/v1/tasks/next_week",
+            headers: { 'Authorization' => "Bearer #{token}" }
+        expect(response).to have_http_status(:success)
+      end
+
     end
   end
 end
