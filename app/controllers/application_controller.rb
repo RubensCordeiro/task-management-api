@@ -16,7 +16,8 @@ class ApplicationController < ActionController::API
 
     decoded_token = AuthenticationTokenService.decode(token)
     user_data = decoded_token[0].deep_symbolize_keys
-    @user = User.find(user_data[:user_id])
+    user_data = { data: user_data } unless user_data[:data]
+    @user = User.find(user_data[:data][:user_id])
   end
 
   def current_user

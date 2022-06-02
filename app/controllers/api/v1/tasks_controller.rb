@@ -56,7 +56,6 @@ module Api
       def check_task_ownership
         raise Forbidden unless Task.find(task_id).user_id == current_user&.id
       end
-
     end
   end
 end

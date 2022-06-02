@@ -42,7 +42,7 @@ RSpec.describe 'Tasks', type: :request do
       it 'Should not create task with mandatory param equal to nil' do
         post '/api/v1/tasks',
              headers: { 'Authorization' => "Bearer #{token}" },
-             params: { task: {title: nil, due_date: Time.new } }
+             params: { task: { title: nil, due_date: Time.new } }
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
@@ -63,10 +63,9 @@ RSpec.describe 'Tasks', type: :request do
 
       it 'Should destroy task' do
         delete "/api/v1/tasks/#{task.id}",
-        headers: { 'Authorization' => "Bearer #{token}" }
+               headers: { 'Authorization' => "Bearer #{token}" }
         expect(response).to have_http_status(:success)
       end
-
     end
   end
 end
