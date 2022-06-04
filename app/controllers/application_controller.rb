@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token
+  include Pagination
+
   class MissingToken < StandardError; end
   class Forbidden < StandardError; end
 

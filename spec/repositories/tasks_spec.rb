@@ -63,7 +63,6 @@ RSpec.describe Repositories::Tasks do
         next_week_tasks
         expect(repository.index(user.id, 'today').size).to eq(1)
       end
-
     end
 
     context 'with invalid parameters' do

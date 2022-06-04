@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Tasks', type: :request do
-  describe 'CRUD helpers' do
+  describe 'CRUD requests' do
     let(:user) { create(:user, username: "user1", password: "password123") }
     let(:user_2) { create(:user, username: "user2", password: "password123") }
     let(:task) { create(:task, user_id: user.id) }
@@ -12,7 +12,7 @@ RSpec.describe 'Tasks', type: :request do
     context 'with valid params' do
       it 'Should get all user tasks' do
         task
-        get "/api/v1/tasks",
+        get "/api/v1/tasks/all",
             headers: { 'Authorization' => "Bearer #{token}" }
         expect(response).to have_http_status(:success)
       end
@@ -66,7 +66,7 @@ RSpec.describe 'Tasks', type: :request do
                headers: { 'Authorization' => "Bearer #{token}" }
         expect(response).to have_http_status(:success)
       end
-      
+
       it 'Should return all user urgent tasks' do
         task
         get "/api/v1/tasks/urgent",
@@ -102,6 +102,12 @@ RSpec.describe 'Tasks', type: :request do
         expect(response).to have_http_status(:success)
       end
 
+      it 'Should return paginated results' do
+        task
+        get "/api/v1/tasks/all/1",
+            headers: { 'Authorization' => "Bearer #{token}" }
+        expect(response).to have_http_status(:success)
+      end
     end
   end
 end
