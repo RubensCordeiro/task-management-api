@@ -10,7 +10,7 @@ module Pagination
   end
 
   def per_page
-    # params[:per_page]&.to_i || 
+    # params[:per_page]&.to_i ||
     default_per_page
   end
 
