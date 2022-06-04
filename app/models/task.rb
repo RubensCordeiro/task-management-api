@@ -9,6 +9,6 @@ class Task < ApplicationRecord
   scope :where_urgent, -> { where(urgent: true) }
   scope :where_late, -> { where("due_date <= ?", today) }
   scope :where_today, -> { where(due_date: today.all_day) }
-  scope :where_tomorrow, -> { where("due_date = ?", (today - 1.day).all_day) }
+  scope :where_tomorrow, -> { where(due_date: (today +1.day).all_day)  }
   scope :where_next_week, -> { where("due_date BETWEEN ? AND ?", today, today + 7.days) }
 end

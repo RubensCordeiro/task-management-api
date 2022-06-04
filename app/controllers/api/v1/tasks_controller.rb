@@ -5,7 +5,7 @@ module Api
       before_action :check_task_ownership, only: [:show, :update, :destroy]
 
       def index
-        response = repository.index(current_user&.id, filter_param=nil) # To prevent nil method error
+        response = repository.index(current_user&.id, filter_param) # To prevent nil method error
         render json: response
       end
 
@@ -58,7 +58,7 @@ module Api
       end
 
       def filter_param
-        return 'all' if ['all', nil, ''].include?(params[:filter] )
+        return nil if ['all', nil, ''].include?(params[:filter] )
         return params[:filter] if ['urgent', 'late', 'today', 'tomorrow', 'next_week'].include?(params[:filter])
       end
 
