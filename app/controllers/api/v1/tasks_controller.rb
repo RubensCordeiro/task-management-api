@@ -58,12 +58,8 @@ module Api
       end
 
       def filter_param
-        return 'urgent' if params[:filter] == 'urgent'
-        return 'late' if params[:filter] == 'late'
-        return 'today' if params[:filter] == 'today'
-        return 'today' if params[:filter] == 'tomorrow'
-        return 'today' if params[:filter] == 'next_week'
-        return nil
+        return 'all' if ['all', nil, ''].include?(params[:filter] )
+        return params[:filter] if ['urgent', 'late', 'today', 'tomorrow', 'next_week'].include?(params[:filter])
       end
 
     end

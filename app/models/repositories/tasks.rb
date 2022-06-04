@@ -1,7 +1,7 @@
 module Repositories
   class Tasks < Base
-    def index(user_id, filter_param=nil)
-      tasks = User.find(user_id).tasks 
+    def index(user_id, filter_param = nil)
+      tasks = User.find(user_id).tasks
       return tasks unless filter_param.present?
       return tasks.where_urgent if filter_param == 'urgent'
       return tasks.where_late if filter_param == 'late'
