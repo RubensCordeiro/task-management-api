@@ -7,6 +7,7 @@ module Api
       def index
         response = repository.index(current_user&.id, filter_param)
         response = response.then(&paginate)
+        response = response.where(finished: false)
         render json: response
       end
 
