@@ -7,7 +7,6 @@ module Api
       def index
         response = repository.index(current_user&.id, filter_param)
         response = response.then(&paginate)
-        response = response.where(finished: false)
         render json: response
       end
 
@@ -61,7 +60,7 @@ module Api
 
       def filter_param
         return nil if ['all', nil, ''].include?(params[:filter])
-        return params[:filter] if ['urgent', 'late', 'today', 'tomorrow', 'next_week'].include?(params[:filter])
+        return params[:filter] if ['urgent', 'late', 'today', 'tomorrow', 'next_week', 'finished'].include?(params[:filter])
       end
     end
   end

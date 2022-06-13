@@ -10,6 +10,7 @@ RSpec.describe Repositories::Tasks do
     let(:late_task) { create(:task, user_id: user.id, due_date: Time.new - 2.days) }
     let(:tomorrow_task) { create(:task, user_id: user.id, due_date: Time.new - 1.days) }
     let(:next_week_tasks) { create(:task, user_id: user.id, due_date: Time.new + 8.days) }
+    let(:finished_tasks) { create(:task, user_id: user.id, finished: true) }
     let(:model) { Task }
 
     context 'With valid params' do
@@ -63,6 +64,13 @@ RSpec.describe Repositories::Tasks do
         next_week_tasks
         expect(repository.index(user.id, 'today').size).to eq(1)
       end
+
+      it 'Should return only finished tasks' do
+        task
+        finished_tasks
+        expect(repository.index(user.id, 'finished').size).to eq(1)
+      end
+
     end
 
     context 'with invalid parameters' do
