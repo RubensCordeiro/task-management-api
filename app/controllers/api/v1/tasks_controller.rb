@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class TasksController < ApplicationController
       before_action :authenticate_user
-      before_action :check_task_ownership, only: [:show, :update, :destroy]
+      before_action :check_task_ownership, only: %i[show update destroy]
 
       def index
         response = repository.index(current_user&.id, filter_param)
@@ -16,7 +18,7 @@ module Api
       end
 
       def create
-        raise ActionController::ParameterMissing.new(params: ["title", "due_date"]) unless mandatory_params_present?
+        raise ActionController::ParameterMissing.new(params: %w[title due_date]) unless mandatory_params_present?
 
         response = repository.create(task_params.merge(user_id: current_user.id))
         render json: response
@@ -45,8 +47,8 @@ module Api
       def task_params
         request_params = params.require(:task).permit(:title, :summary, :description, :due_date, :priority, :urgent,
                                                       :finished)
-        request_params = request_params.select do |param, value|
-          value.present? && [nil, 'null', '', ""].exclude?(value)
+        request_params = request_params.select do |_param, value|
+          value.present? && [nil, 'null', '', ''].exclude?(value)
         end
       end
 
@@ -60,7 +62,8 @@ module Api
 
       def filter_param
         return nil if ['all', nil, ''].include?(params[:filter])
-        return params[:filter] if ['urgent', 'late', 'today', 'tomorrow', 'next_week', 'finished'].include?(params[:filter])
+        return params[:filter] if %w[urgent late today tomorrow next_week
+                                     finished].include?(params[:filter])
       end
     end
   end

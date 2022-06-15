@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe AuthenticationTokenService do
   context 'encoding and decoding' do
-    let(:payload) { { "username" => 'john_doe', "foo" => 'bar' } }
+    let(:payload) { { 'username' => 'john_doe', 'foo' => 'bar' } }
     describe '.encode' do
       it 'performs JWT encoding' do
         token = described_class.encode(payload)

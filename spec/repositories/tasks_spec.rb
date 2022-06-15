@@ -1,13 +1,16 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Repositories::Tasks do
   describe 'CRUD routes' do
-    let(:user) { create(:user, username: "user1", password: "password123") }
-    let(:attributes) { { user_id: user.id, title: "A brand new title", due_date: Time.new } }
+    let(:user) { create(:user, username: 'user1', password: 'password123', email: 'user@mail.com') }
+    let(:attributes) { { user_id: user.id, title: 'A brand new title', due_date: Time.new } }
     let(:repository) { Repositories::Tasks.new }
     let(:task) { create(:task, user_id: user.id) }
     let(:urgent_task) { create(:task, user_id: user.id, urgent: true) }
     let(:late_task) { create(:task, user_id: user.id, due_date: Time.new - 2.days) }
+    let(:today_task) { create(:task, user_id: user.id, due_date: Time.new - 3.hours) }
     let(:tomorrow_task) { create(:task, user_id: user.id, due_date: Time.new - 1.days) }
     let(:next_week_tasks) { create(:task, user_id: user.id, due_date: Time.new + 8.days) }
     let(:finished_tasks) { create(:task, user_id: user.id, finished: true) }
@@ -50,6 +53,7 @@ RSpec.describe Repositories::Tasks do
 
       it 'Should return only today tasks' do
         task
+        today_task
         expect(repository.index(user.id, 'today').size).to eq(1)
       end
 
@@ -62,7 +66,7 @@ RSpec.describe Repositories::Tasks do
       it 'Should return only next_week tasks' do
         task
         next_week_tasks
-        expect(repository.index(user.id, 'today').size).to eq(1)
+        expect(repository.index(user.id, 'next_week').size).to eq(1)
       end
 
       it 'Should return only finished tasks' do
@@ -70,12 +74,11 @@ RSpec.describe Repositories::Tasks do
         finished_tasks
         expect(repository.index(user.id, 'finished').size).to eq(1)
       end
-
     end
 
     context 'with invalid parameters' do
       it 'Raises error when id is not found' do
-        expect(repository.show(999)).to eq({ error: "#{model.to_s} not found" })
+        expect(repository.show(999)).to eq({ error: "#{model} not found" })
       end
     end
   end

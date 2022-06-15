@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token
   include Pagination
@@ -31,11 +33,11 @@ class ApplicationController < ActionController::API
   end
 
   def missing_token_handler
-    render status: 400, json: { error: "Missing authorization header" }
+    render status: 400, json: { error: 'Missing authorization header' }
   end
 
-  def forbidden_handler(e)
-    render status: :forbidden, json: { error: "This resource does not belong to you" }
+  def forbidden_handler(_e)
+    render status: :forbidden, json: { error: 'This resource does not belong to you' }
   end
 
   def record_not_found_handler(e)

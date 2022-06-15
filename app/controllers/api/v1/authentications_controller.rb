@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class AuthenticationsController < UsersController
@@ -26,11 +28,11 @@ module Api
       end
 
       def user_not_found_handler
-        render status: :not_found, json: { error: "User not found" }
+        render status: :not_found, json: { error: 'User not found' }
       end
 
-      def authentication_error_handler(e)
-        render status: :unauthorized, json: { error: "Wrong username or password" }
+      def authentication_error_handler(_e)
+        render status: :unauthorized, json: { error: 'Wrong username or password' }
       end
     end
   end

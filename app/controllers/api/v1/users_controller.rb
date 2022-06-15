@@ -1,7 +1,12 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action only: [:update, :destroy] do
+      class EmailAlreadyRegistered < StandardError; end
+
+      skip_before_action only: [:email_exists?]
+      before_action only: %i[update destroy] do
         authenticate_user
         check_record_ownership(user_id)
       end
@@ -21,6 +26,11 @@ module Api
         render json: response
       end
 
+      def email_exists?
+        response = repository.find_email(params[:email])
+        render json: response
+      end
+
       private
 
       def repository
@@ -30,7 +40,8 @@ module Api
       def user_params
         {
           username: params.require(:username),
-          password: params.require(:password)
+          password: params.require(:password),
+          email: params[:email]
         }
       end
 
@@ -39,7 +50,7 @@ module Api
       end
 
       def check_record_ownership(user_id)
-        raise Forbidden unless (current_user.id).to_i == user_id.to_i
+        raise Forbidden unless current_user.id.to_i == user_id.to_i
       end
     end
   end

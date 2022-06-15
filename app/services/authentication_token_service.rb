@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AuthenticationTokenService
   HMAC_SECRET = ENV['TOKEN_SECRET']
   ALGORITHM = 'HS256'

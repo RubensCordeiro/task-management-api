@@ -1,18 +1,20 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Tasks', type: :request do
   describe 'CRUD requests' do
-    let(:user) { create(:user, username: "user1", password: "password123") }
-    let(:user_2) { create(:user, username: "user2", password: "password123") }
+    let(:user) { create(:user, username: 'user1', password: 'password123', email: 'user@mail.com') }
+    let(:user_2) { create(:user, username: 'user2', password: 'password123', email: 'user2@mail.com') }
     let(:task) { create(:task, user_id: user.id) }
     let(:task_2) { create(:task, user_id: user_2.id) }
-    let(:attributes) { { task: { title: "A brand new title", due_date: Time.new } } }
+    let(:attributes) { { task: { title: 'A brand new title', due_date: Time.new } } }
     let(:token) { AuthenticationTokenService.encode({ user_id: user.id }) }
 
     context 'with valid params' do
       it 'Should get all user tasks' do
         task
-        get "/api/v1/tasks/all",
+        get '/api/v1/tasks/all',
             headers: { 'Authorization' => "Bearer #{token}" }
         expect(response).to have_http_status(:success)
       end
@@ -69,42 +71,42 @@ RSpec.describe 'Tasks', type: :request do
 
       it 'Should return all user urgent tasks' do
         task
-        get "/api/v1/tasks/urgent",
+        get '/api/v1/tasks/urgent',
             headers: { 'Authorization' => "Bearer #{token}" }
         expect(response).to have_http_status(:success)
       end
 
       it 'Should return only late tasks' do
         task
-        get "/api/v1/tasks/late",
+        get '/api/v1/tasks/late',
             headers: { 'Authorization' => "Bearer #{token}" }
         expect(response).to have_http_status(:success)
       end
 
       it 'Should return only today tasks' do
         task
-        get "/api/v1/tasks/today",
+        get '/api/v1/tasks/today',
             headers: { 'Authorization' => "Bearer #{token}" }
         expect(response).to have_http_status(:success)
       end
 
       it 'Should return only tomorrow tasks' do
         task
-        get "/api/v1/tasks/tomorrow",
+        get '/api/v1/tasks/tomorrow',
             headers: { 'Authorization' => "Bearer #{token}" }
         expect(response).to have_http_status(:success)
       end
 
       it 'Should return only next_week tasks' do
         task
-        get "/api/v1/tasks/next_week",
+        get '/api/v1/tasks/next_week',
             headers: { 'Authorization' => "Bearer #{token}" }
         expect(response).to have_http_status(:success)
       end
 
       it 'Should return paginated results' do
         task
-        get "/api/v1/tasks/all/1",
+        get '/api/v1/tasks/all/1',
             headers: { 'Authorization' => "Bearer #{token}" }
         expect(response).to have_http_status(:success)
       end
