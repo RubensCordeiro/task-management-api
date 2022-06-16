@@ -27,7 +27,7 @@ module Api
       end
 
       def email_exists?
-        response = repository.find_email(params[:email])
+        response = repository.find_email(params.fetch(:email))
         render json: response
       end
 

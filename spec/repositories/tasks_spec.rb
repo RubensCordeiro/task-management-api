@@ -52,7 +52,7 @@ RSpec.describe Repositories::Tasks do
       end
 
       it 'Should return only today tasks' do
-        task
+        tomorrow_task
         today_task
         expect(repository.index(user.id, 'today').size).to eq(1)
       end

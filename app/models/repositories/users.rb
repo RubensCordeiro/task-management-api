@@ -3,7 +3,8 @@
 module Repositories
   class Users < Base
     def find_email(email)
-      entity.find_by(email: email).present?
+      formatted_email = email.gsub('-£', '.')
+      entity.where("email = ?", formatted_email).present?
     end
 
     private

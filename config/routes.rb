@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       end
 
       scope :users do
-        get '/email_checker', to: 'users#email_exists?'
+        post '/email_checker', to: 'users#email_exists?'
       end
     end
   end
