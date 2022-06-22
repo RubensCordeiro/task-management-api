@@ -14,7 +14,7 @@ module Api
         raise AuthenticationError unless password_valid?
 
         token = AuthenticationTokenService.encode(data: { user_id: user.id })
-        render json: token, status: :created
+        render json: {token: token}, status: :created
       end
 
       private
