@@ -30,7 +30,7 @@ RSpec.describe 'Users', type: :request do
 
       it 'Finds user email' do
         post '/api/v1/users/email_checker',
-            params: { email: user.email }
+             params: { email: user.email }
         expect(response).to have_http_status(:success)
       end
     end
