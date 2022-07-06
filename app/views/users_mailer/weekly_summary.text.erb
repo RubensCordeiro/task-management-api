@@ -1,0 +1,9 @@
+Welcome <%= @user.username %>.
+
+<% if @tasks.size == 1 %>
+  You have 1 task.
+<%elsif @tasks.size == 0 %>
+  You have no tasks.
+<% else %>
+  You have <%= @tasks.size %> tasks.
+<% end %>
