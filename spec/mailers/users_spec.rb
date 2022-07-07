@@ -1,7 +1,8 @@
 require "rails_helper"
 
 RSpec.describe UsersMailer, type: :mailer do
-  let(:user) { create(:user) }
+  let(:user) { create(:user, username: 'user1', email: 'user1@mail.com') }
+  let(:user2) { create(:user, username: 'user2', email: 'user2@mail.com') }
   let(:task) { create(:task, user_id: user.id) }
   let(:weekly_summary) { described_class.weekly_summary(user) }
 

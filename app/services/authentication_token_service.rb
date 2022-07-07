@@ -5,7 +5,6 @@ class AuthenticationTokenService
   ALGORITHM = 'HS256'
 
   def self.encode(payload)
-    byebug
     token = JWT.encode(payload, HMAC_SECRET, ALGORITHM)
   end
 

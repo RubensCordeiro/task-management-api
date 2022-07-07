@@ -5,5 +5,6 @@ FactoryBot.define do
     username { 'user1' }
     password { 'password123' }
     email { 'user_@mail.com' }
+    mailable { true }
   end
 end
