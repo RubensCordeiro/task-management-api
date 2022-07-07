@@ -6,4 +6,9 @@ Welcome <%= @user.username %>.
   You have no tasks.
 <% else %>
   You have <%= @tasks.size %> tasks.
+    <%= @tasks.where_urgent.size %> urgent;
+    <%= @tasks.where_late.size %> late;
+    <%= @tasks.where_today.size %> due today;
+    <%= @tasks.where_tomorrow.size %> due tomorrow;
+    <%= @tasks.where_next_week.size %> due in the next 7 days;
 <% end %>

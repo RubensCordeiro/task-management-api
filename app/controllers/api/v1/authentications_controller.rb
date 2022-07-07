@@ -13,7 +13,7 @@ module Api
         raise UserNotFound unless user
         raise AuthenticationError unless password_valid?
 
-        token = AuthenticationTokenService.encode(data: { user_id: user.id })
+        token = AuthenticationTokenService.encode(data: { user_id: user.id, security_salt: random_string(20) })
         render json: { token: token }, status: :created
       end
 
@@ -33,6 +33,13 @@ module Api
 
       def authentication_error_handler(_e)
         render status: :unauthorized, json: { error: 'Wrong username or password' }
+      end
+
+      def random_string(length)
+        chars  = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a
+        (1..length).map {
+          chars[rand(chars.length)]
+        }.join
       end
     end
   end

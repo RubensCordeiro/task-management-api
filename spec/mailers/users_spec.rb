@@ -17,6 +17,8 @@ RSpec.describe UsersMailer, type: :mailer do
     end
 
     it 'sends email' do
+      create(:task, user_id: user.id)
+      create(:task, user_id: user.id)
       expect { weekly_summary.deliver_now }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
   end
