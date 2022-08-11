@@ -1,24 +1,19 @@
-# README
+# Backend da aplicalção: https://electrotasks.herokuapp.com/
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Para rodar este projeto na sua máquina, siga os passos abaixo:
 
-Things you may want to cover:
+## Clone o repositório:
+  git clone https://github.com/RubensCordeiro/task-management-api.git
+  
+## Configure o banco de dados (Postgres): 
+  Altere as configurações do arquivo databases.yml para suas configurações do Postgres.
 
-* Ruby version
+### Inicie o ecossistema Rails:
+  rails db:crate
+  rails db:migrate
 
-* System dependencies
+### Inicie a aplicação em servidor local:
+  bundle exec rails s
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Para rodar os testes:
+  bundle exec rspec
