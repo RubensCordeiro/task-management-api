@@ -5,19 +5,19 @@ require 'rails_helper'
 RSpec.describe Repositories::Tasks do
   describe 'CRUD routes' do
     let(:user) { create(:user, username: 'user1', password: 'password123', email: 'user@mail.com') }
-    let(:attributes) { { user_id: user.id, title: 'A brand new title', due_date: Time.new } }
-    let(:repository) { Repositories::Tasks.new }
+    let(:attributes) { { user_id: user.id, title: 'A brand new title', due_date: Time.zone.now } }
+    let(:repository) { described_class.new }
     let(:task) { create(:task, user_id: user.id) }
     let(:urgent_task) { create(:task, user_id: user.id, urgent: true) }
-    let(:late_task) { create(:task, user_id: user.id, due_date: Time.new - 2.days) }
-    let(:today_task) { create(:task, user_id: user.id, due_date: Time.new - 3.hours) }
-    let(:tomorrow_task) { create(:task, user_id: user.id, due_date: Time.new - 1.days) }
-    let(:next_week_tasks) { create(:task, user_id: user.id, due_date: Time.new + 8.days) }
+    let(:late_task) { create(:task, user_id: user.id, due_date: 2.days.ago) }
+    let(:today_task) { create(:task, user_id: user.id, due_date: 3.hours.ago) }
+    let(:tomorrow_task) { create(:task, user_id: user.id, due_date: 1.day.ago) }
+    let(:next_week_tasks) { create(:task, user_id: user.id, due_date: 8.days.from_now) }
     let(:finished_tasks) { create(:task, user_id: user.id, finished: true) }
     let(:model) { Task }
 
-    context 'With valid params' do
-      it 'Should return all user tasks' do
+    context 'with valid params' do
+      it 'returns all user tasks' do
         task
         expect(repository.index(user.id).size).to eq(1)
       end
@@ -39,37 +39,37 @@ RSpec.describe Repositories::Tasks do
         expect(repository.index(user.id).size).to eq(0)
       end
 
-      it 'Should return all user tasks' do
+      it 'returns all user tasks' do
         task
         urgent_task
         expect(repository.index(user.id, 'urgent').size).to eq(1)
       end
 
-      it 'Should return only late tasks' do
+      it 'returns only late tasks' do
         task
         late_task
         expect(repository.index(user.id, 'late').size).to eq(1)
       end
 
-      it 'Should return only today tasks' do
+      it 'returns only today tasks' do
         tomorrow_task
         today_task
         expect(repository.index(user.id, 'today').size).to eq(1)
       end
 
-      it 'Should return only tomorrow tasks' do
+      it 'returns only tomorrow tasks' do
         task
         tomorrow_task
         expect(repository.index(user.id, 'today').size).to eq(1)
       end
 
-      it 'Should return only next_week tasks' do
+      it 'returns only next_week tasks' do
         task
         next_week_tasks
         expect(repository.index(user.id, 'next_week').size).to eq(1)
       end
 
-      it 'Should return only finished tasks' do
+      it 'returns only finished tasks' do
         task
         finished_tasks
         expect(repository.index(user.id, 'finished').size).to eq(1)

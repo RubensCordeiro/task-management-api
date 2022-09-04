@@ -6,7 +6,7 @@ RSpec.describe Repositories::Users do
   describe 'CRUD routes' do
     let(:user) { create(:user, username: 'user1', password: 'password123', email: 'user@mail.com') }
     let(:attributes) { { username: 'username2', password: 'password123', email: 'user@mail.com' } }
-    let(:repository) { Repositories::Users.new }
+    let(:repository) { described_class.new }
     let(:model) { User }
 
     context 'with valid parameters' do
@@ -33,7 +33,7 @@ RSpec.describe Repositories::Users do
         expect(repository.index.size).to eq(0)
       end
 
-      it 'Should check if email exists' do
+      it 'checks if email exists' do
         user
         expect(repository.find_email(user.email)).to be(true)
       end

@@ -2,7 +2,7 @@
 
 class User < ApplicationRecord
   has_secure_password
-  has_many :tasks
+  has_many :tasks, dependent: nil
 
   validates :username, presence: true, length: { minimum: 5 }, uniqueness: true
   validates :password, presence: true, length: { minimum: 10 }

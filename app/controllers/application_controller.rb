@@ -21,26 +21,26 @@ class ApplicationController < ActionController::API
     decoded_token = AuthenticationTokenService.decode(token)
     user_data = decoded_token[0].deep_symbolize_keys
     user_data = { data: user_data } unless user_data[:data]
-    @user = User.find(user_data[:data][:user_id])
+    @current_user = User.find(user_data[:data][:user_id])
   end
 
   def current_user
-    @user ||= authenticate_user
+    @current_user ||= authenticate_user
   end
 
-  def parameter_missing_handler(e)
-    render status: :unprocessable_entity, json: { error: e.original_message }
+  def parameter_missing_handler(error)
+    render status: :unprocessable_entity, json: { error: error.original_message }
   end
 
   def missing_token_handler
-    render status: 400, json: { error: 'Missing authorization header' }
+    render status: :bad_request, json: { error: 'Missing authorization header' }
   end
 
-  def forbidden_handler(_e)
+  def forbidden_handler
     render status: :forbidden, json: { error: 'This resource does not belong to you' }
   end
 
-  def record_not_found_handler(e)
-    render status: :not_found, json: { error: e.to_s }
+  def record_not_found_handler(error)
+    render status: :not_found, json: { error: error.to_s }
   end
 end

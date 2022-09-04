@@ -5,7 +5,7 @@ FactoryBot.define do
     title { 'A title' }
     summary { 'A summary' }
     description { 'A description' }
-    due_date { Time.new }
+    due_date { Time.zone.now }
     priority { 'low' }
     urgent { false }
     finished { false }

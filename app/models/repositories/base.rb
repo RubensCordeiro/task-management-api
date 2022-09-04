@@ -12,9 +12,7 @@ module Repositories
       { error: "#{entity} not found" }
     end
 
-    def create(attributes)
-      entity.create(attributes)
-    end
+    delegate :create, to: :entity
 
     def update(id, attributes)
       entity.find(id)

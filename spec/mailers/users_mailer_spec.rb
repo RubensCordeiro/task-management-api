@@ -1,4 +1,6 @@
-require "rails_helper"
+# frozen_string_literal: true
+
+require 'rails_helper'
 
 RSpec.describe UsersMailer, type: :mailer do
   let(:user) { create(:user, username: 'user1', email: 'user1@mail.com') }

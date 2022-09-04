@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :scheduler do
   desc 'Sends weekly task summary to users'
   task send_weekly_summary: [:environment] do

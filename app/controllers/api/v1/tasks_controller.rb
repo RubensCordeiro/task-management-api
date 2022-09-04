@@ -47,7 +47,7 @@ module Api
       def task_params
         request_params = params.require(:task).permit(:title, :summary, :description, :due_date, :priority, :urgent,
                                                       :finished)
-        request_params = request_params.select do |_param, value|
+        request_params.select do |_param, value|
           value.present? && [nil, 'null', '', ''].exclude?(value)
         end
       end

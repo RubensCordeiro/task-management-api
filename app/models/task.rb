@@ -6,7 +6,7 @@ class Task < ApplicationRecord
   validates :title, :due_date, presence: true
   validates :priority, inclusion: { in: %w[low medium high], message: 'Priority must be low, medium or high' }
 
-  today = Time.new.to_date
+  today = Time.zone.now.to_date
 
   scope :where_urgent, -> { where(urgent: true, finished: false) }
   scope :where_late, -> { where('due_date <= ? AND finished = ?', today, false) }

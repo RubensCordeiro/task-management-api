@@ -8,16 +8,16 @@ RSpec.describe 'Tasks', type: :request do
     let(:task) { create(:task, user_id: user.id) }
     let(:token) { AuthenticationTokenService.encode({ user_id: user.id }) }
 
-    it 'Should return defualt paginated results' do
-      FactoryBot.create_list(:task, 30, user_id: user.id)
+    it 'returns defualt paginated results' do
+      create_list(:task, 30, user_id: user.id)
       get '/api/v1/tasks/all/1',
           headers: { 'Authorization' => "Bearer #{token}" }
       expect(response).to have_http_status(:success)
       expect(JSON.parse(response.body).length).to eq(10)
     end
 
-    it 'Should return next item with offset' do
-      FactoryBot.create_list(:task, 30, user_id: user.id)
+    it 'returns next item with offset' do
+      create_list(:task, 30, user_id: user.id)
       get '/api/v1/tasks/all/2',
           headers: { 'Authorization' => "Bearer #{token}" }
       expect(response).to have_http_status(:success)

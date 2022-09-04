@@ -16,7 +16,7 @@ module Api
 
       def create
         @response = repository.create(user_params)
-        raise InvalidParameterError if @response.errors.size > 0
+        raise InvalidParameterError if @response.errors.size.positive?
 
         render status: :created
       end
@@ -39,7 +39,7 @@ module Api
       private
 
       def invalid_parameter_handler
-        render status: 400, json: { error: @response.errors.full_messages }
+        render status: :bad_request, json: { error: @response.errors.full_messages }
       end
 
       def repository

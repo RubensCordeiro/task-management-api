@@ -5,10 +5,10 @@ require 'rails_helper'
 RSpec.describe 'Users', type: :request do
   describe 'CRUD routes' do
     let(:user) { create(:user, username: 'username1', password: 'password123', email: 'user@mail.com') }
-    let(:user_2) { create(:user, username: 'username2', password: 'password123', email: 'user2@mail.com') }
+    let(:user2) { create(:user, username: 'username2', password: 'password123', email: 'user2@mail.com') }
     let(:token) { AuthenticationTokenService.encode({ user_id: user.id }) }
 
-    context 'With valid params' do
+    context 'with valid params' do
       it 'Creates user' do
         post '/api/v1/registration', params: { username: user.username, password: user.password, email: user.email }
         expect(response).to have_http_status(:created)
@@ -35,7 +35,7 @@ RSpec.describe 'Users', type: :request do
       end
     end
 
-    context 'With invalid params' do
+    context 'with invalid params' do
       it 'Raises error when username is missing' do
         post '/api/v1/registration', params: { password: user.password, email: user.email }
         expect(response).to have_http_status(:unprocessable_entity)
@@ -52,7 +52,7 @@ RSpec.describe 'Users', type: :request do
     it 'Prevents one user to access another user data' do
       patch '/api/v1/registration',
             headers: { 'Authorization' => "Bearer #{token}" },
-            params: { id: user_2.id, username: user.username, password: user.password }
+            params: { id: user2.id, username: user.username, password: user.password }
       expect(response).to have_http_status(:forbidden)
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersMailer < ApplicationMailer
   default from: 'info@task_manager.com'
 

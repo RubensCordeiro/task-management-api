@@ -31,15 +31,15 @@ module Api
         render status: :not_found, json: { error: 'User not found' }
       end
 
-      def authentication_error_handler(_e)
+      def authentication_error_handler
         render status: :unauthorized, json: { error: 'Wrong username or password' }
       end
 
       def random_string(length)
         chars  = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a
-        (1..length).map {
+        (1..length).map do
           chars[rand(chars.length)]
-        }.join
+        end.join
       end
     end
   end
