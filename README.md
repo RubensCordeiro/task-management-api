@@ -1,4 +1,6 @@
-# Backend da aplicalção: https://github.com/RubensCordeiro/task-management-front-end
+### Backend da aplicalção: https://github.com/RubensCordeiro/task-management-front-end
+
+OBS: Esse projeto será constantemente modificado para testar novos conhecimentos.
 
 Para rodar este projeto na sua máquina, siga os passos abaixo:
 
