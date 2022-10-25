@@ -10,7 +10,7 @@ RSpec.describe 'Users' do
 
     context 'with valid params' do
       it 'Creates user' do
-        post '/api/v1/registration', params: { username: user.username, password: user.password, email: user.email }
+        post '/api/v1/registration', params: { username: 'username', password: 'password123', email: 'mail@mail.com' }
         expect(response).to have_http_status(:created)
       end
 
