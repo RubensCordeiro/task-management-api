@@ -3,16 +3,13 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      class EmailAlreadyRegistered < StandardError; end
-      class InvalidParameterError < StandardError; end
+      include UsersRescuer
 
       skip_before_action only: [:email_exists?]
       before_action only: %i[update destroy] do
         authenticate_user
         check_record_ownership(user_id)
       end
-
-      rescue_from InvalidParameterError, with: :invalid_parameter_handler
 
       def create
         @response = repository.create(user_params)
@@ -37,10 +34,6 @@ module Api
       end
 
       private
-
-      def invalid_parameter_handler
-        render status: :bad_request, json: { error: @response.errors.full_messages }
-      end
 
       def repository
         Repositories::Users.new
