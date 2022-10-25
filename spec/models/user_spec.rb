@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+RSpec.describe User do
   describe 'Validations' do
     let(:user) { create(:user, username: 'user1', password: 'password123', email: 'user@mail.com') }
     let(:user2) { create(:user, username: 'user2', password: 'password123', email: 'user@mail.com') }

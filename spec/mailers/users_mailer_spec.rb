@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe UsersMailer, type: :mailer do
+RSpec.describe UsersMailer do
   let(:user) { create(:user, username: 'user1', email: 'user1@mail.com') }
   let(:user2) { create(:user, username: 'user2', email: 'user2@mail.com') }
   let(:task) { create(:task, user_id: user.id) }

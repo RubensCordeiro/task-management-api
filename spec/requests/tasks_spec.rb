@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Tasks', type: :request do
+RSpec.describe 'Tasks' do
   describe 'CRUD requests' do
     let(:user) { create(:user, username: 'user1', password: 'password123', email: 'user@mail.com') }
     let(:user2) { create(:user, username: 'user2', password: 'password123', email: 'user2@mail.com') }

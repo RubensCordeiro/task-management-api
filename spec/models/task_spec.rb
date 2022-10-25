@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Task, type: :model do
+RSpec.describe Task do
   describe 'Validations' do
     let(:user) { create(:user, username: 'user1', password: 'password123', email: 'user@mail.com') }
     let(:task) { create(:task, user_id: user.id) }

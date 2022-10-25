@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Authentication', type: :request do
+RSpec.describe 'Authentication' do
   let(:base_route) { '/api/v1/authentication' }
 
   describe 'Authentication' do
